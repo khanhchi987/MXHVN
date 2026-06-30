@@ -987,7 +987,7 @@
                 // --- PHẦN SỐ NGƯỜI DÙNG (5 phút đổi 1 lần) ---
                 // --- PHẦN SỐ NGƯỜI DÙNG (CẬP NHẬT 5 PHÚT/LẦN) ---
                 const userCountElement = document.getElementById('user-count');
-                let currentCount = 5548; 
+                let currentCount = Math.floor(Math.random() * 4000) + 5000;
 
                 function updateCount() {
                     // Tạo một số ngẫu nhiên từ 50 đến 200
