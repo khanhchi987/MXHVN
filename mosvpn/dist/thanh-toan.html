@@ -1,0 +1,361 @@
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thanh Toán Dịch Vụ - TL Network</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tsparticles/preset-fireworks@3/tsparticles.preset.fireworks.bundle.min.js"></script>
+        <style>
+            :root { --primary: #00ff51; --bg: #070a12; --card-bg: #0d1321; --border: #1e293b; --text-muted: #94a3b8; }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                        font-family: 'Inter', sans-serif;
+                        margin: 0;
+                        min-height: 100vh;
+                        display: flex;
+                        flex-direction: column;
+                        
+                        /* Tăng độ sáng cho ảnh nền bằng cách giảm opacity của lớp phủ đen (từ 0.9 xuống 0.7) */
+                        /* Thêm bộ lọc filter để tăng độ sắc nét và độ tương phản */
+                        background: 
+                            linear-gradient(135deg, rgba(7, 10, 18, 0.7), rgba(7, 10, 18, 0.4)), 
+                            url('ban-do-the-gioi-nen-den-cac-chau-luc-mau-trang_955080-4894.avif');
+                        background-size: cover;
+                        background-position: center;
+                        background-attachment: fixed;
+                        
+                        /* Bộ lọc giúp ảnh trông nét hơn và tương phản mạnh hơn */
+                        filter: contrast(1.2) brightness(1.1) saturate(1.2);
+                        
+                        color: #fff;
+            }
+            .header-logo {
+                height: 40px; /* Nhỏ gọn, vừa đủ nhìn */
+                opacity: 0.8;  /* Giảm độ sáng một chút để không lấn át nội dung */
+                transition: 0.3s;
+            }
+            .header-logo:hover {
+                opacity: 1; /* Sáng lên khi di chuột vào */
+            }
+            .header-wrapper { background-color: rgba(7, 10, 18, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 10px 0; }
+            .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+            header { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                height: 100px; /* Tăng chiều cao header để chứa logo to */
+                padding: 10px 0;
+            }
+
+            .logo-img { 
+                height: 90px;
+                width: 90px;             /* Cần đặt chiều rộng bằng chiều cao để tạo hình tròn hoàn hảo */
+                object-fit: cover;       /* Đảm bảo ảnh không bị méo, tự căn giữa */
+                border-radius: 70%;      /* Biến khối thành hình tròn */
+                border: 2px solid rgba(0, 235, 75, 0.5); /* Thêm viền để logo nổi bật hơn */
+                filter: drop-shadow(0 0 15px rgba(0, 235, 75, 0.986));
+                transition: transform 0.8s ease;
+            }
+
+            .logo-img:hover {
+                transform: scale(1.05);
+            }
+            .payment-section { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+            .payment-card { 
+                background: rgba(13, 19, 33, 0.8); 
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(0, 255, 81, 0.3); 
+                padding: 40px; 
+                border-radius: 24px; 
+                text-align: center; 
+                width: 100%; 
+                max-width: 450px; 
+            }
+            
+            /* QR Wrapper & Status Dot */
+            .qr-wrapper { position: relative; display: inline-block; margin-bottom: 25px; }
+            .qr-img { width: 100%; max-width: 250px; border-radius: 12px; border: 4px solid #fff; }
+            .status-dot { position: absolute; top: 10px; left: 10px; width: 12px; height: 12px; background-color: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse-dot 1.5s infinite; z-index: 10; }
+            @keyframes pulse-dot { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(0.9); opacity: 1; } }
+
+            h1 { color: var(--primary); margin-bottom: 20px; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
+            
+            /* Info List */
+            .info-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+            .info-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            .info-item span { color: var(--text-muted); font-size: 14px; }
+            .info-item b { color: #fff; font-size: 15px; }
+
+            /* Note Box */
+            .note-box { background: rgba(255, 193, 7, 0.1); border: 1px solid #ffc107; color: #ffc107; padding: 15px; border-radius: 12px; margin-bottom: 25px; text-align: left; font-size: 13px; }
+
+            /* Button */
+            .btn-zalo { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(0, 255, 81, 0.8); color: #000; padding: 15px; text-decoration: none; border-radius: 10px; font-weight: 800; transition: 0.3s; }
+            .btn-zalo:hover { background: var(--primary); box-shadow: 0 0 20px rgba(0, 255, 81, 0.4); }
+
+            .btn-back-home { padding: 8px 16px; border: 1px solid var(--primary); color: var(--primary); text-decoration: none; font-weight: 600; border-radius: 8px; animation: pulse-green 2s infinite; }
+            @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 81, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(0, 255, 81, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 81, 0); } }
+
+            #tsparticles{
+                position:fixed;
+                inset:0;
+                z-index:999;
+                pointer-events:none;
+            }
+
+            .header-wrapper,
+            .payment-section,
+            .payment-card {
+                position: relative;
+                z-index: 10;
+            }
+            /* ===== SUPPORT WIDGET ===== */
+        .support-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .support-label {
+            background: #000;
+            color: var(--primary);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            border: 1px solid var(--primary);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .support-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 255, 81, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .support-btn:hover {
+            background: #00e676;
+            box-shadow: 0 8px 30px rgba(0, 255, 81, 0.6);
+            transform: scale(1.1);
+        }
+
+        .support-btn:hover + .support-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .support-btn i {
+            font-size: 28px;
+            color: #000;
+        }
+
+        .support-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            border: 3px solid #070a12;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        }
+        #tsparticles{
+            position: fixed;
+            inset: 0;
+            z-index: 1;   /* pháo hoa */
+            pointer-events: none;
+            opacity: 0.2; /* thêm dòng này */
+        }
+
+        .payment-card{
+            position: relative;
+            z-index: 10;  /* card nằm trên pháo hoa */
+        }
+
+        .header-wrapper{
+            position: relative;
+            z-index: 10;
+        }
+        /* ===== SUPPORT WIDGET ===== */
+        .support-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .support-label {
+            background: #000;
+            color: var(--primary);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            border: 1px solid var(--primary);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .support-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 255, 81, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .support-btn:hover {
+            background: #00e676;
+            box-shadow: 0 8px 30px rgba(0, 255, 81, 0.6);
+            transform: scale(1.1);
+        }
+
+        .support-btn:hover + .support-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .support-btn i {
+            font-size: 28px;
+            color: #000;
+        }
+
+        .support-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            border: 3px solid #070a12;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        }
+        </style>
+    </head>
+    <body>
+
+        <div id="tsparticles"></div>
+        <script>
+        (async () => {
+            await loadFireworksPreset(tsParticles);
+
+            await tsParticles.load({
+                id: "tsparticles",
+                options: {
+                    preset: "fireworks",
+                    fullScreen: {
+                        enable: false
+                    },
+                    background: {
+                        color: "transparent"
+                    }
+                }
+            });
+        })();
+
+        </script>
+        <div class="header-wrapper">
+            <div class="container">
+                <header>
+                    <a href="index.html"><img src="logo1.png" alt="Logo" class="logo-img"></a>
+                    <a href="index.html" class="btn-back-home"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</a>
+                </header>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <div class="payment-card">
+                <h1>Hoàn tất thanh toán</h1>
+                
+                <div class="qr-wrapper">
+                    <div class="status-dot"></div>
+                    <img src="QR.png" alt="Mã QR" class="qr-img">
+                </div>
+                
+                <div class="info-list">
+                    <div class="info-item"><span>Ngân hàng</span> <b>Ngân hàng Á Châu (ACB)</b></div>
+                    <div class="info-item"><span>Số tài khoản</span> <b>26264841</b></div>
+                    <div class="info-item"><span>Chủ tài khoản</span> <b>Vũ Thành Long</b></div>
+                    <div class="info-item"><span>Hotline/Zalo</span> <b>0963.077.533</b></div>
+                    <div class="info-item"><span>Nội dung</span> <b style="color: var(--primary);">TL [SĐT] [Gói]</b></div>
+                </div>
+
+                <div class="note-box">
+                    <i class="fa-solid fa-circle-info"></i> Liên hệ qua <b>Zalo</b> để nhận tài khoản và hướng dẫn sử dụng. Vui lòng chụp ảnh màn hình hóa đơn để xác nhận nhanh nhất.
+                </div>
+
+                <a href="https://zalo.me/0963077533" target="_blank" class="btn-zalo">
+                    <i class="fa-brands fa-whatsapp"></i> Nhấn Để Zalo xác nhận
+                </a>
+            </div>
+            <div class="support-widget">
+                <a href="https://zalo.me/0963077533" target="_blank" class="support-btn">
+                    <i class="fas fa-comments"></i>
+                    <span class="support-badge">7</span>
+                </a>
+                <span class="support-label">Cần hỗ trợ?</span>
+            </div>
+        </div>
+        
+        </script>
+    </body>
+    </html>

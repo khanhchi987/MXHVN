@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng giá Dịch vụ - TL Network</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.11.1/css/flag-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #00ff51;   /* xanh neon chủ đạo */
+            --bg: #070a12;       /* nền tối */
+            --card-bg: #0d1321;  /* card */
+            --border: #1e293b;   /* viền */
+            --text-muted: #94a3b8;
+            --accent: #00e676;
+        }
+        html, body {
+            width: 100vw;
+            height: 100%;
+            overflow-x: hidden; /* 🌟 Ngăn chặn các phần tử con bên dưới làm phình độ rộng của trang */
+            scrollbar-gutter: stable; /* 🌟 Dành chỗ cho scrollbar luôn để tránh nhảy */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+                
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: #ffffff; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6; 
+            overflow-y: scroll; /* Luôn dành chỗ cho scrollbar */
+            animation: pageOpen 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+
+        
+        .header-wrapper { 
+            background-color: rgba(7, 10, 18, 0.9); 
+            backdrop-filter: blur(12px); 
+            border-bottom: 1px solid var(--border); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 0; 
+            height: 60px; 
+        }
+        .header-left { display: flex; align-items: center; gap: 40px; }
+        
+        /* --- Khu vực hiển thị LOGO vừa khít không tràn viền --- */
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            height: 60px;
+            padding: 6px 10px;
+            border-radius: 16px;
+        }
+
+        .logo-img {
+            height: 100%;
+            max-height: 60px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+
+            border-radius: 12px;
+            filter:
+                drop-shadow(0 0 3px #00ff51)
+                drop-shadow(0 0 6px rgba(0, 255, 81, 0.6));
+
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter:
+                drop-shadow(0 0 3px #00ff51)
+                drop-shadow(0 0 9px #00ff51)
+                drop-shadow(0 0 15px rgba(0, 255, 81, 0.5));
+        }
+        
+        nav { display: flex; gap: 25px; }
+        nav a { color: #8a99ad; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
+        nav a:hover { color: var(--primary); }
+        nav a.active { color: var(--primary); }
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .lang-selector { border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #fff; display: flex; align-items: center; gap: 5px; }
+        
+        .btn-nav-login { color: #fff; text-decoration: none; font-size: 14px; border: 1px solid var(--border); padding: 8px 18px; border-radius: 8px; transition: 0.2s; }
+        .btn-nav-login:hover { background: rgba(0, 0, 0, 0.05); border-color: var(--primary); }
+        .btn-nav-signup {
+            background: var(--primary);
+            color: #000;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 750;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 81, 0.3);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .btn-nav-signup:hover {
+            background: #00ff51;
+            color: #000;
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 0 6px rgba(4, 185, 62, 0.4),
+                0 0 12px rgba(0, 255, 81, 0.25);
+        }
+        .btn-nav-signup:active {
+            transform: translateY(0px) scale(0.97);
+            box-shadow: 0 0 6px rgba(0, 255, 81, 0.3);
+        }
+
+        /* ==========================================================
+           2. TIÊU ĐỀ & THANH ĐIỀU HƯỚNG CATEGORY
+           ========================================================== */
+        .pricing-section {
+            padding: 60px 0;
+            text-align: center;
+        }
+        .pricing-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .pricing-subtitle {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
+
+        .category-tabs {
+            display: inline-flex;
+            background: #111827;
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            margin-bottom: 40px;
+            gap: 8px;
+        }
+        .cat-tab-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .flag-icon { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; }
+        .cat-tab-btn.active {
+            background: #00e676;
+            color: #0b0f19;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+        }
+
+        
+        /* ===== SUPPORT WIDGET ===== */
+        .support-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .support-label {
+            background: #000;
+            color: var(--primary);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            border: 1px solid var(--primary);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .support-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 255, 81, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .support-btn:hover {
+            background: #00e676;
+            box-shadow: 0 8px 30px rgba(0, 255, 81, 0.6);
+            transform: scale(1.1);
+        }
+
+        .support-btn:hover + .support-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .support-btn i {
+            font-size: 28px;
+            color: #000;
+        }
+
+        .support-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            border: 3px solid #070a12;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        }
+        /* =========================
+        ĐOM ĐÓM VÀNG TL NETWORK
+        ========================= */
+
+        .fireflies {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .fireflies span {
+            position: absolute;
+            width: 1.1px;
+            height: 1.1px;
+            background: #00ff51;
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(0, 255, 81, 0.4), 0 0 8px rgba(0, 255, 81, 0.2);
+            opacity: 0.7;
+            animation: firefly 10s infinite ease-in-out;
+        }
+
+        .fireflies span:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .fireflies span:nth-child(2) { top: 20%; left: 80%; animation-delay: 1s; }
+        .fireflies span:nth-child(3) { top: 35%; left: 30%; animation-delay: 2s; }
+        .fireflies span:nth-child(4) { top: 50%; left: 90%; animation-delay: 3s; }
+        .fireflies span:nth-child(5) { top: 70%; left: 20%; animation-delay: 4s; }
+        .fireflies span:nth-child(6) { top: 80%; left: 60%; animation-delay: 5s; }
+        .fireflies span:nth-child(7) { top: 40%; left: 70%; animation-delay: 2.5s; }
+        .fireflies span:nth-child(8) { top: 15%; left: 50%; animation-delay: 1.5s; }
+        .fireflies span:nth-child(9) { top: 65%; left: 85%; animation-delay: 3.5s; }
+        .fireflies span:nth-child(10) { top: 90%; left: 40%; animation-delay: 4.5s; }
+        .fireflies span:nth-child(11) { top: 25%; left: 60%; animation-delay: 5.5s; }
+        .fireflies span:nth-child(12) { top: 75%; left: 75%; animation-delay: 6s; }
+        .fireflies span:nth-child(13) { top: 45%; left: 15%; animation-delay: 6.5s; }
+        .fireflies span:nth-child(14) { top: 60%; left: 45%; animation-delay: 7s; }
+        .fireflies span:nth-child(15) { top: 5%; left: 90%; animation-delay: 7.5s; }
+        .fireflies span:nth-child(16) { top: 12%; left: 25%; animation-delay: 0.2s; }
+        .fireflies span:nth-child(17) { top: 18%; left: 65%; animation-delay: 0.4s; }
+        .fireflies span:nth-child(18) { top: 22%; left: 40%; animation-delay: 0.6s; }
+        .fireflies span:nth-child(19) { top: 28%; left: 15%; animation-delay: 0.8s; }
+        .fireflies span:nth-child(20) { top: 32%; left: 85%; animation-delay: 1s; }
+
+        .fireflies span:nth-child(21) { top: 38%; left: 55%; animation-delay: 1.2s; }
+        .fireflies span:nth-child(22) { top: 42%; left: 20%; animation-delay: 1.4s; }
+        .fireflies span:nth-child(23) { top: 48%; left: 75%; animation-delay: 1.6s; }
+        .fireflies span:nth-child(24) { top: 52%; left: 35%; animation-delay: 1.8s; }
+        .fireflies span:nth-child(25) { top: 58%; left: 90%; animation-delay: 2s; }
+
+        .fireflies span:nth-child(26) { top: 62%; left: 10%; animation-delay: 2.2s; }
+        .fireflies span:nth-child(27) { top: 68%; left: 50%; animation-delay: 2.4s; }
+        .fireflies span:nth-child(28) { top: 72%; left: 80%; animation-delay: 2.6s; }
+        .fireflies span:nth-child(29) { top: 78%; left: 30%; animation-delay: 2.8s; }
+        .fireflies span:nth-child(30) { top: 82%; left: 60%; animation-delay: 3s; }
+
+        .fireflies span:nth-child(31) { top: 14%; left: 75%; animation-delay: 0.3s; }
+        .fireflies span:nth-child(32) { top: 26%; left: 20%; animation-delay: 0.5s; }
+        .fireflies span:nth-child(33) { top: 36%; left: 45%; animation-delay: 0.7s; }
+        .fireflies span:nth-child(34) { top: 46%; left: 70%; animation-delay: 0.9s; }
+        .fireflies span:nth-child(35) { top: 56%; left: 25%; animation-delay: 1.1s; }
+
+        .fireflies span:nth-child(36) { top: 66%; left: 85%; animation-delay: 1.3s; }
+        .fireflies span:nth-child(37) { top: 76%; left: 40%; animation-delay: 1.5s; }
+        .fireflies span:nth-child(38) { top: 86%; left: 15%; animation-delay: 1.7s; }
+        .fireflies span:nth-child(39) { top: 90%; left: 55%; animation-delay: 1.9s; }
+        .fireflies span:nth-child(40) { top: 95%; left: 75%; animation-delay: 2.1s; }
+
+        .fireflies span:nth-child(41) { top: 8%; left: 35%; animation-delay: 2.3s; }
+        .fireflies span:nth-child(42) { top: 16%; left: 90%; animation-delay: 2.5s; }
+        .fireflies span:nth-child(43) { top: 24%; left: 60%; animation-delay: 2.7s; }
+        .fireflies span:nth-child(44) { top: 34%; left: 10%; animation-delay: 2.9s; }
+        .fireflies span:nth-child(45) { top: 44%; left: 80%; animation-delay: 3.1s; }
+        .fireflies span:nth-child(46) { top: 54%; left: 50%; animation-delay: 3.3s; }
+        .fireflies span:nth-child(47) { top: 64%; left: 25%; animation-delay: 3.5s; }
+        .fireflies span:nth-child(48) { top: 74%; left: 65%; animation-delay: 3.7s; }
+        .fireflies span:nth-child(49) { top: 84%; left: 45%; animation-delay: 3.9s; }
+        .fireflies span:nth-child(50) { top: 88%; left: 85%; animation-delay: 4.1s; }
+
+        .fireflies span:nth-child(51) { top: 3%; left: 65%; animation-delay: 0.1s; }
+        .fireflies span:nth-child(52) { top: 11%; left: 45%; animation-delay: 0.5s; }
+        .fireflies span:nth-child(53) { top: 29%; left: 85%; animation-delay: 1.1s; }
+        .fireflies span:nth-child(54) { top: 31%; left: 20%; animation-delay: 1.7s; }
+        .fireflies span:nth-child(55) { top: 41%; left: 60%; animation-delay: 2.2s; }
+
+        .fireflies span:nth-child(56) { top: 49%; left: 15%; animation-delay: 2.8s; }
+        .fireflies span:nth-child(57) { top: 53%; left: 75%; animation-delay: 3.4s; }
+        .fireflies span:nth-child(58) { top: 67%; left: 35%; animation-delay: 4.0s; }
+        .fireflies span:nth-child(59) { top: 71%; left: 90%; animation-delay: 4.6s; }
+        .fireflies span:nth-child(60) { top: 83%; left: 55%; animation-delay: 5.2s; }
+
+        .fireflies span:nth-child(61) { top: 6%; left: 20%; animation-delay: 0.8s; }
+        .fireflies span:nth-child(62) { top: 19%; left: 55%; animation-delay: 1.4s; }
+        .fireflies span:nth-child(63) { top: 23%; left: 10%; animation-delay: 2.0s; }
+        .fireflies span:nth-child(64) { top: 37%; left: 95%; animation-delay: 2.6s; }
+        .fireflies span:nth-child(65) { top: 43%; left: 40%; animation-delay: 3.2s; }
+
+        .fireflies span:nth-child(66) { top: 57%; left: 80%; animation-delay: 3.8s; }
+        .fireflies span:nth-child(67) { top: 61%; left: 15%; animation-delay: 4.4s; }
+        .fireflies span:nth-child(68) { top: 79%; left: 70%; animation-delay: 5.0s; }
+        .fireflies span:nth-child(69) { top: 81%; left: 30%; animation-delay: 5.6s; }
+        .fireflies span:nth-child(70) { top: 93%; left: 85%; animation-delay: 6.2s; }
+
+        .fireflies span:nth-child(71) { top: 13%; left: 38%; animation-delay: 1.5s; }
+        .fireflies span:nth-child(72) { top: 27%; left: 72%; animation-delay: 2.5s; }
+        .fireflies span:nth-child(73) { top: 47%; left: 28%; animation-delay: 3.5s; }
+        .fireflies span:nth-child(74) { top: 63%; left: 62%; animation-delay: 4.5s; }
+        .fireflies span:nth-child(75) { top: 85%; left: 48%; animation-delay: 5.5s; }
+
+        @keyframes firefly {
+            0%, 100% {
+                opacity: 0.15;
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                opacity: 0.8;
+                transform: translate(20px, -25px) scale(1.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-15px, 20px) scale(2);
+            }
+            75% {
+                opacity: 0.5;
+                transform: translate(25px, 10px) scale(1.2);
+            }
+        }
+
+        /* Nội dung luôn nằm trên đom đóm */
+        .header-wrapper,
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+        @keyframes pageOpen {
+        from {
+            opacity: 0;
+            transform: translateY(12px) scale(0.985);
+            filter: blur(9px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(1px);
+        }
+        }
+        .policy-section {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(0, 255, 157, 0.05); /* Tông xanh neon nhạt */
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 12px;
+            color: #a0b1a8; /* Màu chữ hơi tối hơn màu chính để không bị chói */
+            font-size: 14px;
+        }
+        /* CLASS CHUNG CHO CẢ 2 THANH DIVIDER */
+       /* 1. KHUNG BỌC ĐỂ ÉP TẤT CẢ PHẢI CĂN GIỮA MÀN HÌNH */
+        .zalo-light-box {
+            width: 100%;
+            margin: 60px 0; /* Khoảng cách trên dưới cho thoáng web */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Căn giữa chữ và đường kẻ */
+            justify-content: center;
+        }
+
+        /* 2. ĐƯỜNG KẺ */
+        .divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.9), /* Lõi sáng trắng */
+                transparent
+            );
+        }
+
+        /* Hiệu ứng hắt sáng */
+        .divider.glow-up {
+            box-shadow: 0 -15px 25px rgb(251, 255, 0);
+        }
+        .divider.glow-down {
+            box-shadow: 0 15px 25px rgb(251, 255, 0);
+        }
+
+        /* 3. CHỮ ZALO Ở TÂM ĐÈN */
+        .zalo-text-center {
+            font-size: 19px;
+            color: #eeff00; /* Màu xanh Zalo nổi bật */
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin: 15px 0; /* Tạo khoảng cách vừa vặn với 2 thanh divider */
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        }
+        .menu-divider {
+            width: 85%;               /* Độ dài đường kẻ (chiếm 85% chiều rộng màn hình) */
+            max-width: 1200px;        /* Giới hạn không cho dài quá */
+            height: 1px;              /* Độ mỏng sắc nét */
+            margin: 30px auto 5px auto; /* Khoảng cách: Cách menu nút 30px, Cách tiêu đề dưới 50px */
+            
+            /* Hiệu ứng đường kẻ có lõi sáng ở giữa mờ dần về 2 đầu */
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.2) 15%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0.2) 85%,
+                transparent
+            );
+            
+            /* Làn hào quang màu xanh neon hắt nhẹ xuống dưới chân */
+            box-shadow: 0 5px 15px rgba(0, 255, 153, 0.35); 
+        }
+/*==================================== ===== BANG GIA ======================================== */
+               /* Menu styles */
+        /* Menu container - đã chỉnh khoảng cách và kích thước */
+
+
+    </style>
+</head>
+<body>
+    
+    <div class="fireflies">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="header-wrapper">
+        <div class="container">
+            <header>
+                <div class="header-left">
+                    <a href="index.html" class="logo-link">
+                        <img src="logo1.png" alt="TL Network Logo" class="logo-img">
+                    </a>
+                    <nav>
+                        <a href="index.html">Trang chủ</a>
+                        <a href="bang-gia.html" class="active">Bảng giá</a> 
+                        <a href="tai-xuong.html">Tải xuống</a>
+                        <a href="huong-dan.html">Hướng dẫn</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="trang-thai.html">Trạng thái</a>
+                    </nav>
+                </div>
+                <div class="header-right">
+                    <div class="lang-selector"><span>🇻🇳 VI</span></div>
+                    <a href="https://zalo.me/0963077533" target="_blank" class="btn-nav-login">Đăng nhập</a>
+                    <a href="https://zalo.me/0963077533" target="_blank" class="btn-nav-signup">Đăng ký ngay</a>
+                </div>
+            </header>
+        </div>
+    </div>
+
+    <!-- PHẦN MENU VÀ KẾT QUẢ -->
+    <main class="main-content">
+        <div class="menu-tabs" id="menu-tabs"></div>
+
+        <div class="menu-divider"></div>
+
+        <div class="category-box" id="result-box">
+            <div class="header">
+                <span id="flag-icon" style="font-size: 24px;"></span>
+                <h3 id="category-title">Chọn một mục</h3>
+            </div>
+            <div class="price-grid" id="price-grid">
+                </div>
+        </div>
+    </main>
+
+    <style>
+        .main-content { padding: 40px 20px; text-align: center; }
+        /* Menu Style chỉnh lại cho Dark Mode */
+        .menu-tabs { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-bottom: 40px; 
+            flex-wrap: wrap; 
+        }
+
+        .tab-btn { 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center; /* Căn giữa icon và chữ */
+            min-width: 140px;        /* Độ rộng tối thiểu, bạn có thể tăng lên tùy ý */
+            padding: 12px 15px;      /* Khoảng cách bên trong */
+            border: 2px solid #11007385; 
+            border-radius: 25px; 
+            background: #00000062;
+            color: #ffffff;  /* màu chữ*/
+            cursor: pointer; 
+            transition: 0.3s; 
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Hiệu ứng khi di chuột vào */
+        /* Hiệu ứng khi di chuột vào - Tăng độ sáng của nền để nút nổi lên */
+        .tab-btn:hover { 
+            background: rgba(7, 0, 33, 0.12); /* Nền chuyển xanh nhạt */
+            border-color: rgb(255, 255, 255);  /* Viền sáng rõ hơn */
+        }
+
+        /* Hiệu ứng khi nút được chọn */
+        .tab-btn.active {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: #ffffff;
+        }
+
+         /*============================================= */
+        /* ==================== BẢNG GIÁ CHUẨN DESIGN ==================== */
+        .category-box {
+            background: transparent;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 25px;
+        }
+
+        /* GRID CHUẨN 4 CỘT */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        /* CARD MẶC ĐỊNH (BASIC, PREMIUM, VIP) */
+        .price-item {
+            background: #0b111e; /* Màu nền tối sâu theo ảnh */
+            border: 1px solid rgba(255, 255, 255, 0.369);
+            border-radius: 16px;
+            padding: 32px 24px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            text-align: left; /* Căn lề trái nội dung */
+
+            transition: all 0.25s ease;
+        }
+
+        /* Hover nhẹ cho các card */
+        .price-item:hover {
+            transform: translateY(-3px);
+            border-color: rgb(255, 255, 255);
+        }
+
+        /* CARD PRO (NỔI BẬT) */
+        .price-item.pro {
+            border: 1.5px solid #00ff99; /* Viền xanh neon nổi bật */
+            box-shadow: 0 0 20px rgba(0, 255, 153, 0.15);
+        }
+
+        /* BADGE PHỔ BIẾN CHUẨN */
+        .badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            background: #00ff99;
+            color: #000000;
+
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        /* TIÊU ĐỀ GÓI */
+        .price-item h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+
+        /* Màu chữ tiêu đề riêng cho gói PRO, PREMIUM, VIP giống ảnh */
+        .price-item:first-child h3 { color: #00c2ff; } /* Màu xanh dương dịu mát */
+        .price-item.pro h3 { color: #00ff1e; }
+        .price-item:nth-child(3) h3 { color: #ff00ff; } /* PREMIUM - Hồng/Tím */
+        .price-item:nth-child(4) h3 { color: #ffff00; } /* VIP - Vàng */
+
+        /* PHỤ ĐỀ */
+        .subtitle {
+            color: #4b5563; /* Màu chữ xám mờ */
+            font-size: 13px;
+            margin: -8px 0 0 0;
+        }
+
+        /* KHỐI HIỂN THỊ GIÁ */
+        .price {
+            font-size: 34px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 10px 0 0 0;
+        }
+        .price span {
+            font-size: 13px;
+            color: #4b5563;
+            font-weight: normal;
+        }
+
+        /* GIỚI HẠN THIẾT BỊ */
+        .device-limit {
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .device-limit i {
+            color: #00ff99;
+            font-size: 16px;
+        }
+
+        /* ĐƯỜNG GẠCH NGANG */
+        .price-item hr {
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 5px 0;
+        }
+
+        /* DANH SÁCH TÍNH NĂNG */
+        .features {
+            font-size: 13px;
+            color: #9ca3af;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            line-height: 1.4;
+        }
+        .features p {
+            margin: 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .features i {
+            color: #00ff99; /* Icon tích v xanh */
+            margin-top: 2px;
+        }
+
+        /* NÚT BẤM (BUTTON MẶC ĐỊNH) */
+        .btn {
+            margin-top: auto; /* Đẩy nút xuống đáy card */
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 13px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s ease;
+            text-align: center;
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* NÚT BẤM CỦA GÓI PRO */
+        .price-item.pro .btn {
+            background: #00ff99;
+            color: #000000;
+            border: none;
+        }
+        .price-item.pro .btn:hover {
+            background: #00dd80;
+            transform: scale(1.02);
+        }
+
+        /* RESPONSIVE TRÊN ĐIỆN THOẠI */
+        @media (max-width: 900px) {
+            .price-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+        /* CONTAINER CHỨA TIÊU ĐỀ KHU VỰC */
+        .category-box .header {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Căn giữa hoàn toàn cờ và chữ */
+            gap: 12px;               /* Tạo khoảng cách vừa phải giữa cờ và chữ */
+            margin-bottom: 40px;     /* Đẩy bảng giá phía dưới xuống, tạo khoảng thở rộng rãi */
+            margin-top: 10px;
+        }
+
+        /* CHỈNH LẠI CHỮ TIÊU ĐỀ CHO ĐẸP VÀ CHUYÊN NGHIỆP */
+        #category-title {
+            margin: 0;
+            font-size: 28px;         /* Tăng kích thước chữ lên cho rõ ràng, uy lực */
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase; /* Viết hoa toàn bộ nhìn sẽ ngầu và cân đối hơn */
+            letter-spacing: 1.5px;   /* Giãn cách các chữ cái một chút */
+            
+            /* Hiệu ứng đổ bóng phát sáng nhẹ màu neon đồng bộ với web */
+            text-shadow: 0 0 15px rgba(0, 255, 153, 0.3); 
+        }
+    </style>
+
+    <script>
+        const data = {
+            "5G Japan": { flagCode: "jp", iconColor: "white", plans: [
+                { title: "BASIC", subtitle: "Cho cá nhân", price: "150k", devices: "1", features: ["Tiết kiệm & Chất lượng cao", "Tốc độ & ổn định"], isPopular: false },
+                { title: "PRO", subtitle: "Phổ biến", price: "150k", devices: "2", features: ["Xray VLESS Reality", "Tốc độ 5G cao"], isPopular: true },
+                { title: "PREMIUM", subtitle: "Nhóm nhỏ", price: "150k", devices: "3", features: ["Xray VLESS Reality", "Server riêng"], isPopular: false },
+                { title: "VIP", subtitle: "Tốc độ tối đa", price: "250k", devices: "5", features: ["Xray VLESS Reality", "Ưu tiên VIP"], isPopular: false }
+            ]},
+            "5G VietNam": { flagCode: "vn", iconColor: "red", plans: [
+                { title: "BASIC", subtitle: "Cơ bản", price: "25k", devices: "1", features: ["Facebook | YouTube 4K", "Ping thấp | Ổn định"], isPopular: false },
+                { title: "PRO", subtitle: "Phổ biến", price: "35k", devices: "2", features: ["Sài Full App ", "Tốc độ cao | Mượt mà "], isPopular: true },
+                { title: "PREMIUM", subtitle: "Gia đình", price: "150k", devices: "3", features: ["Lâu dài nếu ít Sử dụng", "Băng thông rộng"], isPopular: false },
+                { title: "VIP", subtitle: "Tốc độ cao", price: "300", devices: "5", features: ["Khoảng 3 năm liên tiếp", "Tốc độ 5G cao"], isPopular: false }
+            ]},
+            "VPN China": { flagCode: "cn", iconColor: "#ff9900", plans: [
+                { title: "BASIC", subtitle: "Ngắn hạn", price: "60k", devices: "1", features: ["VLESS Reality", "Vượt tường lửa"], isPopular: false },
+                { title: "PRO", subtitle: "Phổ biến", price: "95k", devices: "2", features: ["VLESS Reality", "Kết nối ổn định"], isPopular: true },
+                { title: "PREMIUM", subtitle: "Gia đình", price: "115k", devices: "3", features: ["VLESS Reality", "Tốc độ cao"], isPopular: false },
+                { title: "VIP", subtitle: "Doanh nghiệp", price: "160k", devices: "5", features: ["VLESS Reality", "Full tính năng"], isPopular: false }
+            ]},
+            "VPN Russia": { flagCode: "ru", iconColor: "#33cccc", plans: [
+                { title: "BASIC", subtitle: "Dùng Cá Nhân", price: "60k", devices: "1", features: ["Facebook | YouTube 4K", "Nhanh mượt ổn định"], isPopular: false },
+                { title: "PRO", subtitle: "Dùng Đa Thiết Bị", price: "95k", devices: "2", features: ["Facebook | YouTube 4K", "Tốc độ & Tiết kiệm"], isPopular: true },
+                { title: "PREMIUM", subtitle: "Dùng Nhóm Nhỏ", price: "120k", devices: "3", features: ["Facebook | YouTube 4K", "Tối ưu & Đa thiết bị"], isPopular: false },
+                { title: "VIP", subtitle: "Dùng Gia Đình", price: "165k", devices: "5", features: ["Facebook | YouTube 4K", "Ổn định & mượt mà"], isPopular: false }
+            ]},
+            "VPN Global": { flagCode: "un", iconColor: "magenta", plans: [
+                { title: "BASIC", subtitle: "Tiết kiệm", price: "30k", devices: "1", features: ["VLESS Reality", "Toàn cầu"], isPopular: false },
+                { title: "PRO", subtitle: "Được tin dùng", price: "60k", devices: "2", features: ["VLESS Reality", "Kết nối nhanh"], isPopular: true },
+                { title: "PREMIUM", subtitle: "Ổn định", price: "100k", devices: "3", features: ["VLESS Reality", "Nhiều node"], isPopular: false },
+                { title: "VIP", subtitle: "Cao cấp", price: "180k", devices: "5", features: ["VLESS Reality", "VIP nodes"], isPopular: false }
+            ]},
+            "eSIM Global": { icon: '<i class="fa-solid fa-sim-card"></i>', iconColor: "#ffd700", plans: [
+                { title: "DATA S", subtitle: "10GB", price: "70k", devices: "1", features: ["Data Roaming", "4G/5G"], isPopular: false },
+                { title: "DATA M", subtitle: "30GB", price: "130k", devices: "1", features: ["Data Roaming", "Toàn cầu"], isPopular: true },
+                { title: "DATA L", subtitle: "60GB", price: "220k", devices: "1", features: ["Data Roaming", "Không giới hạn"], isPopular: false },
+                { title: "DATA XL", subtitle: "Unlimited", price: "400k", devices: "1", features: ["Data Roaming", "Tốc độ cao"], isPopular: false }
+            ]},
+            "Social Media": { icon: '<i class="fa-solid fa-globe"></i>', iconColor: "#1e90ff", plans: [
+                { title: "Zalo", subtitle: "Cá nhân", price: "400k", devices: "1", features: ["Bảo hành trọn đời 24/7", "Uy tín | Bảo mật cao"], isPopular: false },
+                { title: "S2", subtitle: "Phổ biến", price: "40k", devices: "1", features: ["Social Unblock", "High Speed"], isPopular: true },
+                { title: "S3", subtitle: "Nâng cao", price: "70k", devices: "2", features: ["Social Unblock", "Tối ưu video"], isPopular: false },
+                { title: "S4", subtitle: "VIP", price: "120k", devices: "3", features: ["Social Unblock", "Không giới hạn"], isPopular: false }
+            ]}
+        };
+
+        const menuContainer = document.getElementById('menu-tabs');
+        const titleEl = document.getElementById('category-title');
+        const flagEl = document.getElementById('flag-icon');
+        const gridEl = document.getElementById('price-grid');   
+
+        Object.keys(data).forEach((cat, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'tab-btn';
+            
+            let iconHTML = "";
+            // Lấy màu từ data, nếu không có thì mặc định là màu xanh neon
+            const myColor = data[cat].iconColor || "#00ff2a";
+            
+            if (data[cat].flagCode) {
+                // Áp dụng màu cho cờ (thường là viền hoặc nền nhỏ nếu cần)
+                iconHTML = `<span class="fi fi-${data[cat].flagCode}" style="margin-right: 8px;"></span>`;
+            } else if (data[cat].icon) {
+                // Áp dụng 'style="color: colorCode"' trực tiếp vào icon
+                // Đoạn này quan trọng: we inject the color directly into the icon's HTML
+                const coloredIcon = data[cat].icon.replace('<i class="', `<i style="color: ${myColor}" class="`);
+                iconHTML = `<span style="margin-right: 8px;">${coloredIcon}</span>`;
+            }
+            
+            btn.innerHTML = `${iconHTML} ${cat}`;
+            btn.onclick = () => showCategory(cat, btn);
+            menuContainer.appendChild(btn);
+            if(index === 0) btn.click();
+        });
+
+        // Hàm hiển thị giá khi bấm
+        function showCategory(cat, btn) {
+            // 1. Highlight nút đang chọn
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // 2. Cập nhật tiêu đề nhóm kèm Icon/Cờ tương ứng
+            let titleIconHTML = "";
+            if (data[cat].flagCode) {
+                titleIconHTML = `<span class="fi fi-${data[cat].flagCode}"></span>`;
+            } else if (data[cat].icon) {
+                const myColor = data[cat].iconColor || "#00ff2a";
+                titleIconHTML = data[cat].icon.replace('<i class="', `<i style="color: ${myColor}" class="`);
+            }
+
+            // Chèn cả cờ/icon và chữ vào khung header (gộp chung vào titleEl bằng innerHTML)
+            titleEl.innerHTML = `${titleIconHTML} ${cat}`;
+
+            // 3. Render bảng giá chuẩn chỉnh đồng bộ theo CSS mới
+            const selectedPlans = data[cat].plans;
+            
+            gridEl.innerHTML = selectedPlans.map((plan) => {
+                // Kiểm tra xem gói đó có phải là PRO / Phổ biến không
+                const isPro = plan.isPopular; 
+                
+                // Format lại giá tiền (ví dụ '90k' hoặc '90' thành '90.000đ')
+                let formattedPrice = plan.price;
+                if (formattedPrice.endsWith('k')) {
+                    formattedPrice = formattedPrice.replace('k', '.000');
+                } else if (!formattedPrice.includes('.')) {
+                    formattedPrice = formattedPrice + '.000';
+                }
+
+                return `
+                    <div class="price-item ${isPro ? 'pro' : ''}">
+                        ${isPro ? '<div class="badge">PHỔ BIẾN</div>' : ''}
+                        
+                        <h3>${plan.title}</h3>
+                        <p class="subtitle">${plan.subtitle}</p>
+                        
+                        <div class="price">
+                            ${formattedPrice}đ <span>/ tháng</span>
+                        </div>
+                        <p class="subtitle" style="margin-top: -6px; font-size: 12px;">Thanh toán theo tháng</p>
+                        
+                        <hr>
+                        
+                        <div class="device-limit">
+                            <i class="fa-solid fa-mobile-screen-button"></i> Dùng cho <b>${plan.devices}</b> thiết bị
+                        </div>
+                        
+                        <div class="features">
+                            ${plan.features.map(f => `<p><i class="fa-solid fa-check"></i> ${f}</p>`).join('')}
+                            <p><i class="fa-solid fa-check"></i> iOS · Android · macOS · Windows</p>
+                        </div>
+                        
+                        <button class="btn" onclick="window.location.href='thanh-toan.html'">MUA NGAY →</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        const pricingData = [
+        {
+            title: "BASIC",
+            subtitle: "Cho người dùng phổ thông",
+            price: "54.000",
+            devices: "1",
+            features: ["Xray VLESS Reality · vượt kiểm duyệt DPI", "iOS · Android · macOS · Windows"],
+            isPopular: false
+        },
+        {
+            title: "PRO",
+            subtitle: "Lựa chọn của đa số người dùng",
+            price: "86.000",
+            devices: "2",
+            features: ["Xray VLESS Reality · vượt kiểm duyệt DPI", "iOS · Android · macOS · Windows"],
+            isPopular: true
+        },
+        {
+            title: "PREMIUM",
+            subtitle: "Cho gia đình & nhóm nhỏ",
+            price: "108.000",
+            devices: "3",
+            features: ["Xray VLESS Reality · vượt kiểm duyệt DPI", "iOS · Android · macOS · Windows"],
+            isPopular: false
+        },
+        {
+            title: "VIP",
+            subtitle: "Không giới hạn — Tốc độ tối đa",
+            price: "151.000",
+            devices: "5",
+            features: ["Xray VLESS Reality · vượt kiểm duyệt DPI", "iOS · Android · macOS · Windows"],
+            isPopular: false
+        }
+    ];
+    
+    </script>
+    <!-- KHU VỰC ĐÈN CHIẾU 2 CHIỀU CÓ CHỮ ZALO Ở GIỮA -->
+
+    <div class="zalo-light-box">
+        
+        <div class="divider glow-down"></div>
+        
+        <div class="zalo-text-center">Liên hệ Zalo Admin để được hỗ trợ tư vấn 0963.077.533</div>
+        
+        <div class="divider glow-up"></div>
+
+    </div>
+
+
+    <!-- Support Widget -->
+    <div class="support-widget">
+        <a href="https://zalo.me/0963077533" target="_blank" class="support-btn">
+            <i class="fas fa-comments"></i>
+            <span class="support-badge">7</span>
+        </a>
+        <span class="support-label">Cần hỗ trợ?</span>
+    </div>
+    <div class="policy-section">
+    <h3 style="color: #ffffff; margin-top: 0; margin-bottom: 20px;">🛡️ Cam kết quyền lợi khách hàng</h3>
+
+    <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 10px;"><strong>✅ Bảo mật dữ liệu:</strong> Cam kết không lưu nhật ký truy cập (No-log policy). Mọi thông tin đều được mã hóa theo tiêu chuẩn quốc tế.</li>
+        <li style="margin-bottom: 10px;"><strong>✅ Chính sách hoàn tiền:</strong> Hoàn 100% chi phí trong 48 giờ đầu tiên nếu dịch vụ không đáp ứng nhu cầu hoặc gặp sự cố kỹ thuật.</li>
+        <li style="margin-bottom: 10px;"><strong>✅ Hỗ trợ 24/7:</strong> Đội ngũ kỹ thuật hỗ trợ xử lý sự cố nhanh chóng, đảm bảo kết nối ổn định liên tục.</li>
+        <li style="margin-bottom: 10px;"><strong>✅ Hỗ trợ kỹ thuật trọn đời: </strong> Mọi vấn đề về kết nối, cấu hình ứng dụng trên điện thoại/máy tính sẽ được đội ngũ chuyên viên xử lý trực tiếp qua Zalo.</li>
+        
+    </ul>
+    <p style="font-size: 12px; margin-top: 15px; border-top: 1px solid rgba(0, 255, 157, 0.1); padding-top: 10px;">
+        <a href="https://zalo.me/0963077533" target="_blank" style="color: #00ff9d; text-decoration: none;">Điều khoản dịch vụ</a> & 
+        <a href="https://zalo.me/0963077533" target="_blank" style="color: #00ff9d; text-decoration: none;">Chính sách bảo mật</a>.
+    </p>
+</div>
+
+</body> 
+</html>
